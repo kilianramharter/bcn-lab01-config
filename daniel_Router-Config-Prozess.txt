@@ -1,0 +1,59 @@
+// config löschen:
+enable
+#write erase
+#conf t
+conf#config-register 0x2102
+conf#end
+#reload
+#[no]
+
+// hostname, domain setzen
+#conf t
+conf# hostname xxx
+conf# ip domain-name fhstp.local
+conf# end
+
+
+// passwörter setzen
+conf# enable algorithm-type sha256 secret ****** (class)
+conf# enable password ****** (cisco)
+conf# line vty 0 4 // telnet..
+conf-line# password ****** (ciscotel)
+conf-line# login
+conf-line# end
+conf# line con 0 // console..
+conf-line# password ****** (ciscocon)
+conf-line# login
+conf-line# logging synchronous
+conf-line# end
+conf# service password-encryption
+
+// MOTD
+conf# banner motd %
+$(hostname).$(domain) on line $(line) ($(line-desc)), contact:is241323 %
+
+//IP addresse
+conf-if# ip add 10.x.x.x 255.255.255.252
+conf-if# no shut
+
+//SSH config
+// zuerst: hostname, domain! ip addresse!
+conf# crypto key zeroize rsa label key_name
+conf# crypto key generate rsa label key_name modulus key_size
+conf# user XXX  auth~ sha~ secret ******
+conf# login block-for 180 attempts 4 within 120
+conf# line vty 0 15
+conf-line# login local
+conf-line# transport input ssh
+conf# ip ssh version 2
+
+
+-----------------troubleshooting---------------
+bei reload: "boot variable either does not exist or buffer is too small"
+->
+dir bootflash:
+(hier image .bin notieren)
+conf# boot system flash bootflash:/isr4200....bin
+conf# end
+# cop ru st, [confirm]
+reload [confirm]
