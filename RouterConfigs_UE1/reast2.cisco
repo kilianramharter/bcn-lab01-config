@@ -1,0 +1,21 @@
+# 1)Prep
+ena
+conf t
+hostname REast2
+no ip domain lookup
+ipv6 unicast-routing
+int eth0/0
+ip ad 172.16.255.254 255.255.0.0
+ipv6 ad fe80::1:2 link-local
+ipv6 ad 2001:DB8:ACAD:AC16::254/64
+int eth0/1
+ip ad 172.31.255.246 255.255.255.252
+ipv6 ad fe80::1:2 link-local
+int eth0/2
+ip ad 172.31.255.229 255.255.255.252
+ipv6 ad fe80::1:2 link-local
+ex
+int range eth0/0-2
+no shut
+
+# 2)RIPv2

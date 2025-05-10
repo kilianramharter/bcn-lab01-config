@@ -1,0 +1,18 @@
+# 1)Prep
+ena
+conf t
+hostname RWest2
+no ip domain lookup
+ipv6 unicast-routing
+int eth0/0
+ip ad 172.18.255.254 255.255.0.0
+ipv6 ad fe80::2:3 link-local
+ipv6 ad 2001:DB8:ACAD:AC19::254/64
+int eth0/1
+ip ad 172.31.255.234 255.255.255.252
+ipv6 ad fe80::2:3 link-local
+ex
+int range eth0/0-1
+no shut
+
+# 2)RIPv2
