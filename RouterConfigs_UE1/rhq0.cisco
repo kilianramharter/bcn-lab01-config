@@ -1,0 +1,70 @@
+# 1)Prep
+ena
+conf t
+hostname RHQ0
+no ip domain lookup
+int eth0/0
+ip ad 172.30.255.254 255.255.0.0
+ipv6 ad fe80:: link-local
+ipv6 ad 2001:DB8:ACAD:AC1E::254/64
+int eth0/1
+ip ad 172.31.255.253 255.255.255.252
+ipv6 ad fe80:: link-local
+int eth0/2
+ip ad 172.31.255.249 255.255.255.252
+ipv6 ad fe80:: link-local
+int eth1/0
+ip ad 199.1.1.66 255.255.255.252
+ipv6 ad fe80:: link-local
+ipv6 ad 2001:DB8:ACAD:1::/127
+no shut
+ex
+int range eth0/0-2
+no shut
+exi
+exi
+exi
+disa
+
+# 2)RIPv2
+ena
+conf t
+router rip
+version 2
+no auto-summary
+network 172.30.0.0
+network 172.31.255.252
+network 172.31.255.248
+
+exi
+exi
+
+cop ru st
+
+# 3)RIPng
+ena
+conf t
+ipv6 unicast-routing
+ipv6 router rip process1
+int range e0/0-2
+ipv6 rip process1 enable
+
+exi
+exi
+
+cop ru st
+
+
+# 4)default routes
+ena
+conf t
+ip route 0.0.0.0 0.0.0.0 199.1.1.65
+default-information originate
+ipv6 route ::/0 2001:DB8:ACAD:1::1
+int e1/0
+ipv6 rip process1 default-information originate
+
+exi
+exi
+
+cop ru st
