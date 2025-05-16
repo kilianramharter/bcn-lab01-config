@@ -46,7 +46,7 @@ ena
 conf t
 ipv6 unicast-routing
 ipv6 router rip process1
-int range e0/0-2
+int range e0/1-2
 ipv6 rip process1 enable
 
 exi
@@ -61,10 +61,21 @@ conf t
 ip route 0.0.0.0 0.0.0.0 199.1.1.65
 default-information originate
 ipv6 route ::/0 2001:DB8:ACAD:1::1
-int e1/0
+int ran e0/1-2
 ipv6 rip process1 default-information originate
 
 exi
 exi
 
 cop ru st
+
+# 5)harded rip
+ena
+conf t
+router rip
+passive-interface e0/0
+exi
+exi
+
+cop ru st
+

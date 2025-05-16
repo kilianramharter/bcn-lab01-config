@@ -3,7 +3,6 @@ ena
 conf t
 hostname RWest2
 no ip domain lookup
-ipv6 unicast-routing
 int eth0/0
 ip ad 172.18.255.254 255.255.0.0
 ipv6 ad fe80::2:2 link-local
@@ -14,5 +13,48 @@ ipv6 ad fe80::2:2 link-local
 ex
 int range eth0/0-1
 no shut
+exi
+exi
+exi
+disa
 
 # 2)RIPv2
+ena
+conf t
+router rip
+version 2
+no auto-summary
+network 172.18.0.0
+network 172.31.255.236
+
+exi
+exi
+
+cop ru st
+
+# 3) RIPng
+ena
+conf t
+
+ipv6 unicast-routing
+ipv6 router rip process1
+int range e0/0-1
+ipv6 rip process1 enable
+
+exi
+exi
+
+cop ru st
+
+# 4)default routes
+
+# 5)harded rip
+ena
+conf t
+router rip
+passive-interface e0/0
+exi
+exi
+
+cop ru st
+
