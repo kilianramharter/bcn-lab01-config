@@ -66,3 +66,17 @@ network 172.31.255.252 0.0.0.3 area 0
 end
 
 cop ru st
+
+# 8)Analysis OSPFv2
+#NIL
+
+# 9)OSPFv3
+ena
+conf t
+ipv6 router ospf 10
+int e0/0
+ipv6 ospf 10 area 0
+
+end
+
+cop ru st

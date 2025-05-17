@@ -91,3 +91,18 @@ default-information originate
 end
 
 cop ru st
+
+# 8)Analysis OSPFv2
+#NIL
+
+# 9)OSPFv3
+ena
+conf t
+ipv6 router ospf 10
+default-information originate
+int ra e0/1-2
+ipv6 ospf 10 area 0
+
+end
+
+cop ru st
