@@ -21,10 +21,10 @@ no shut
 ex
 int range eth0/0-2
 no shut
-exi
-exi
-exi
-disa
+
+end
+
+cop ru st
 
 # 2)RIPv2
 ena
@@ -36,8 +36,7 @@ network 172.30.0.0
 network 172.31.255.252
 network 172.31.255.248
 
-exi
-exi
+end
 
 cop ru st
 
@@ -46,11 +45,10 @@ ena
 conf t
 ipv6 unicast-routing
 ipv6 router rip process1
-int range e0/1-2
+int range e0/0-2
 ipv6 rip process1 enable
 
-exi
-exi
+end
 
 cop ru st
 
@@ -64,12 +62,11 @@ ipv6 route ::/0 2001:DB8:ACAD:1::1
 int ran e0/1-2
 ipv6 rip process1 default-information originate
 
-exi
-exi
+end
 
 cop ru st
 
-# 5)harded rip
+# 5)harden rip
 ena
 conf t
 router rip
@@ -79,3 +76,18 @@ exi
 
 cop ru st
 
+# 6f.a)RIPng on point-to-point links only
+#NIL
+
+# 7)OSPFv2
+ena
+conf t
+router ospf 10
+router-id 1.1.0.0
+network 172.31.255.248 0.0.0.3 area 0
+network 172.31.255.252 0.0.0.3 area 0
+default-information originate
+
+end
+
+cop ru st

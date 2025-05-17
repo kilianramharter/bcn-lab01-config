@@ -15,12 +15,10 @@ ipv6 ad fe80::1:1 link-local
 ex
 int range eth0/0-2
 no shut
-exi
-exi
-exi
-cop ru st
 
-disa
+end
+
+cop ru st
 
 # 2)RIPv2
 ena
@@ -32,9 +30,7 @@ network 172.31.255.252
 network 172.31.255.244
 network 172.31.255.240
 
-
-exi
-exi
+end
 
 cop ru st
 
@@ -44,22 +40,29 @@ conf t
 
 ipv6 unicast-routing
 ipv6 router rip process1
-int range e0/1-2
+int range e0/0-2
+ipv6 rip process1 enable
 
-exi
-exi
+end
 
 cop ru st
 
 # 4)default routes
+#NIL
 
 # 5)harded rip
+#NIL
+
+# 6f.a)RIPng on point-to-point links only
+#NIL
+
+# 7)OSPFv2
 ena
 conf t
-router rip
-passive-interface e0/0
-exi
-exi
+router ospf 10
+router-id 1.1.1.1
+network 172.31.255.252 0.0.0.3 area 0
+
+end
 
 cop ru st
-
