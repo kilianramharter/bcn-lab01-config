@@ -1,7 +1,7 @@
 # 1)Prep
 ena
 conf t
-hostname RWest2
+hostname RWest3
 no ip domain lookup
 int eth0/0
 ip ad 172.19.255.254 255.255.0.0
@@ -68,3 +68,46 @@ cop ru st
 
 # 9)OSPFv3
 #NIL
+
+# 10) Analysis OSPFv3
+#NIL
+
+# 11) Multiarea OSPF Dual Stack and Route Redistribution
+ena
+conf t
+# a
+no router rip
+no ipv6 router rip process1
+# b
+#NIL
+# c
+router ospf 10
+router-id 1.1.2.3
+exi
+int eth0/1
+ip ospf 10 area 2
+ipv6 ospf 10 area 2
+router ospf 10
+redistribute connected
+exi
+# d
+
+end
+
+cop ru st
+
+
+# 12)
+#NIL
+
+# 13)
+ena
+conf t
+router ospf 10
+area 2 stub no-summary
+exi
+ipv6 router ospf 10
+area 2 stub no-summary
+end
+
+cop ru st

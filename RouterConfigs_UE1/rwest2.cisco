@@ -68,3 +68,45 @@ cop ru st
 
 # 9)OSPFv3
 #NIL
+
+# 10) Analysis OSPFv3
+#NIL
+
+# 11) Multiarea OSPF Dual Stack and Route Redistribution
+ena
+conf t
+# a
+no router rip
+no ipv6 router rip process1
+# b
+#NIL
+# c
+router ospf 10
+router-id 1.1.2.2
+exi
+int eth0/1
+ip ospf 10 area 1
+ipv6 ospf 10 area 1
+router ospf 10
+redistribute connected
+exi
+# d
+
+end
+
+cop ru st
+
+# 12)
+#NIL
+
+# 13)
+ena
+conf t
+router ospf 10
+area 1 stub
+exi
+ipv6 router ospf 10
+area 1 stub
+end
+
+cop ru st

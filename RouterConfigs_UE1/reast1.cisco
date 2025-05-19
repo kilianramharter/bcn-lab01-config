@@ -80,3 +80,31 @@ ipv6 ospf 10 area 0
 end
 
 cop ru st
+
+# 10) Analysis OSPFv3
+#NIL
+
+# 11) Multiarea OSPF Dual Stack and Route Redistribution
+ena
+conf t
+# a
+#NIL
+# b
+router rip
+default-information originate
+int ra eth0/1-2
+ipv6 rip process1 default-information originate
+exi
+# c
+#NIL
+# d
+router ospf 10
+redistribute rip subnets metric-type 1
+redistribute rip metric 100 subnets
+exi
+ipv6 router ospf 10
+redistribute rip process1 include-connected metric 100 metric-type 1
+end
+
+cop ru st
+

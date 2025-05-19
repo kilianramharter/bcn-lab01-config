@@ -106,3 +106,19 @@ ipv6 ospf 10 area 0
 end
 
 cop ru st
+
+# 10) Analysis OSPFv3
+#NIL
+
+# 11) Multiarea OSPF Dual Stack and Route Redistribution
+ena
+conf t
+# a
+no router rip
+no ipv6 router rip process1
+# bcd
+#NIL
+
+end
+
+cop ru st

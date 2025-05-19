@@ -72,3 +72,9 @@ cop ru st
 
 # 9)OSPFv3
 #NIL
+
+# 10) Analysis OSPFv3
+#NIL
+
+# 11) Multiarea OSPF Dual Stack and Route Redistribution
+#NIL
