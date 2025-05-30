@@ -1,8 +1,9 @@
 # 1)Prep
+! a
 ena
 conf t
 hostname RHQ0
-no ip domain lookup
+! b
 int eth0/0
 ip ad 172.30.255.254 255.255.0.0
 ipv6 ad fe80:: link-local
@@ -21,23 +22,23 @@ no shut
 ex
 int range eth0/0-2
 no shut
-
+! c
+no ip domain lookup
 end
-
 cop ru st
 
 # 2)RIPv2
+! a
 ena
 conf t
 router rip
 version 2
+! b
 no auto-summary
 network 172.30.0.0
 network 172.31.255.252
 network 172.31.255.248
-
 end
-
 cop ru st
 
 # 3)RIPng
@@ -47,9 +48,7 @@ ipv6 unicast-routing
 ipv6 router rip process1
 int range e0/0-2
 ipv6 rip process1 enable
-
 end
-
 cop ru st
 
 
@@ -61,9 +60,7 @@ default-information originate
 ipv6 route ::/0 2001:DB8:ACAD:1::1
 int ran e0/1-2
 ipv6 rip process1 default-information originate
-
 end
-
 cop ru st
 
 # 5)harden rip
@@ -71,9 +68,7 @@ ena
 conf t
 router rip
 passive-interface e0/0
-exi
-exi
-
+end
 cop ru st
 
 # 6f.a)RIPng on point-to-point links only
@@ -87,9 +82,7 @@ router-id 1.1.0.0
 network 172.31.255.248 0.0.0.3 area 0
 network 172.31.255.252 0.0.0.3 area 0
 default-information originate
-
 end
-
 cop ru st
 
 # 8)Analysis OSPFv2
@@ -102,9 +95,7 @@ ipv6 router ospf 10
 default-information originate
 int ra e0/1-2
 ipv6 ospf 10 area 0
-
 end
-
 cop ru st
 
 # 10) Analysis OSPFv3
@@ -118,9 +109,7 @@ no router rip
 no ipv6 router rip process1
 # bcd
 #NIL
-
 end
-
 cop ru st
 
 # 12) Analysis Multiarea OSPF Dual Stack and Route Redistribution
@@ -143,5 +132,5 @@ ip ospf mess 10 md5 cisco
 ip ospf network point-to-point
 ipv ospf network point-to-point
 end
-
 cop ru st
+

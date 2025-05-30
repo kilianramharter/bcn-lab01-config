@@ -1,8 +1,9 @@
 # 1)Prep
+! a
 ena
 conf t
 hostname RWest3
-no ip domain lookup
+! b
 int eth0/0
 ip ad 172.19.255.254 255.255.0.0
 ipv6 ad fe80::2:3 link-local
@@ -13,35 +14,32 @@ ipv6 ad fe80::2:3 link-local
 ex
 int range eth0/0-1
 no shut
-
+! c
+no ip domain lookup
 end
-
 cop ru st
 
 # 2)RIPv2
+! a
 ena
 conf t
 router rip
 version 2
+! b
 no auto-summary
 network 172.19.0.0
 network 172.31.255.232
-
 end
-
 cop ru st
 
 # 3) RIPng
 ena
 conf t
-
 ipv6 unicast-routing
 ipv6 router rip process1
 int range e0/0-1
 ipv6 rip process1 enable
-
 end
-
 cop ru st
 
 # 4)default routes
@@ -52,9 +50,7 @@ ena
 conf t
 router rip
 passive-interface e0/0
-
 end
-
 cop ru st
 
 # 6f.a)RIPng on point-to-point links only
@@ -91,9 +87,7 @@ router ospf 10
 redistribute connected
 exi
 # d
-
 end
-
 cop ru st
 
 
@@ -109,7 +103,6 @@ exi
 ipv6 router ospf 10
 area 2 stub no-summary
 end
-
 cop ru st
 
 # 14)  Analysis Multiarea OSPF Dual Stack – Stub & Totally Stub Area
@@ -126,5 +119,4 @@ ip ospf mess 10 md5 cisco
 ip ospf network point-to-point
 ipv ospf network point-to-point
 end
-
 cop ru st

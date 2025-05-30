@@ -1,8 +1,9 @@
 # 1)Prep
+! a
 ena
 conf t
 hostname REast3
-no ip domain lookup
+! b
 int eth0/0
 ip ad 172.17.255.254 255.255.0.0
 ipv6 ad fe80::1:3 link-local
@@ -16,36 +17,33 @@ ipv6 ad fe80::1:3 link-local
 ex
 int range eth0/0-2
 no shut
-
+! c
+no ip domain lookup
 end
-
 cop ru st
 
 # 2)RIPv2
+! a
 ena
 conf t
 router rip
 version 2
+! b
 no auto-summary
 network 172.17.0.0
 network 172.31.255.240
 network 172.31.255.228
-
 end
-
 cop ru st
 
 # 3) RIPng
 ena
 conf t
-
 ipv6 unicast-routing
 ipv6 router rip process1
 int range e0/0-2
 ipv6 rip process1 enable
-
 end
-
 cop ru st
 
 # 4)default routes
@@ -56,9 +54,7 @@ ena
 conf t
 router rip
 passive-interface e0/0
-
 end
-
 cop ru st
 
 # 6f.a)RIPng on point-to-point links only
@@ -77,4 +73,16 @@ cop ru st
 #NIL
 
 # 11) Multiarea OSPF Dual Stack and Route Redistribution
+#NIL
+
+# 12) Analysis Multiarea OSPF Dual Stack and Route Redistribution
+#NIL
+
+# 13) Multiarea OSPF Dual Stack Stub&TotallyStub
+#NIL
+
+# 14) Analysis Multiarea OSPF Dual Stack Stub&TotallyStub
+#NIL
+
+# 15) Harden OSPF
 #NIL
