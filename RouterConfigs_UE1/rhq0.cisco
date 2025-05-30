@@ -122,3 +122,26 @@ no ipv6 router rip process1
 end
 
 cop ru st
+
+# 12) Analysis Multiarea OSPF Dual Stack and Route Redistribution
+#NIL
+
+# 13) Multiarea OSPF Dual Stack – Stub & Totally Stub Area
+#NIL
+
+# 14)  Analysis Multiarea OSPF Dual Stack – Stub & Totally Stub Area
+#NIL
+
+# 15) Harden your OSPF topology
+ena
+conf t
+router ospf 10
+area 0 auth mess
+int ra e0/1-2
+ip ospf mess 10 md5 cisco
+# b)
+ip ospf network point-to-point
+ipv ospf network point-to-point
+end
+
+cop ru st
