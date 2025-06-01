@@ -1,0 +1,187 @@
+!
+version 17.15
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
+hostname RHQ0
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+no ip domain lookup
+ip cef
+login on-success log
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-131185074
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-131185074
+ revocation-check none
+ rsakeypair TP-self-signed-131185074
+ hash sha512
+!
+!
+crypto pki certificate chain TP-self-signed-131185074
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 0D050030 
+  30312E30 2C060355 04030C25 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31333131 38353037 34301E17 0D323530 35333131 37353732 
+  355A170D 33353035 33313137 35373235 5A303031 2E302C06 03550403 0C25494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3133 31313835 
+  30373430 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 AD8B2091 301579E1 E05645A6 513812A7 63BA1FFB 07CFEE30 E6F05ADC 
+  ED63C5FD AE41F360 F54E3245 00E01A00 BE3D043D 3D3CB035 FD83B0D4 8AD38E08 
+  4210ED66 9190AFC5 E2A7B578 EC61F3FF CEC5F1EB D202EF0F 752E042D 14973687 
+  D62BE35F 7202AEA8 CA9D1F9C 1ED7521A C7AC1580 AF93D721 1A9BB419 02EF2BCE 
+  CB04D694 59EB8D5B 3C7C0AC7 280CEC06 D7FD55C3 4ED8474E 017FDF19 4CC7161B 
+  BC2A8DB0 E5EDA7CA BAF220BA 6BA3D659 47C103F8 16331A54 C01940BC 643D721B 
+  D223CC1D 6873B5E1 33E9FF90 487784CC D9A8A5DE 1EEDFB28 423EA761 F3966122 
+  390D0956 966EA2D6 C5604223 4F75CC47 0FCEF8C7 CC4B7F08 EE8AA424 C93156B1 
+  1B8A9E41 02030100 01A35330 51301D06 03551D0E 04160414 7632FB77 E83B2E79 
+  8C47AD1B 87379BEA 02681B74 301F0603 551D2304 18301680 147632FB 77E83B2E 
+  798C47AD 1B87379B EA02681B 74300F06 03551D13 0101FF04 05300301 01FF300D 
+  06092A86 4886F70D 01010D05 00038201 01003EA0 13CED13D 51961D34 A0C826EE 
+  DC4BBF65 7E87707A 2B33037B 763E87F5 10F0BD5F B9965C07 000544E0 3ECC8F81 
+  62B49D45 D6E8586A 85FF57D3 F73E3C4A C0CC04A2 F042AB2D 6465118D EAC0816C 
+  0634D41C BBB2EBC1 AD07B200 07A9F8AF 21A216FC 4D7A9E82 7B8CDA62 2FE4EFC8 
+  23AF3673 1219075D E44A31C8 00C118F1 77D45707 102123A8 904445BD 8D3B49F0 
+  F3B59E7F 6344E476 A51C2096 80843EDB 1CCB9AFC 0470F641 4220A3FD D497995E 
+  B0FE103B 5E815E3C 727835C2 8B6F9CDF F02BD4CE 305791CB 7066236B 355D4A36 
+  4C453981 DE78EC54 787075CF 5C59AC38 F4F0648C 2027BF1D 2C6D62F5 FA6022FA 
+  80C3926F 72BB9385 DCEE3D84 95F0E59E AA7F
+        quit
+!
+!
+memory free low-watermark processor 80093
+!
+!
+spanning-tree mode rapid-pvst
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ ip address 172.30.255.254 255.255.0.0
+ ipv6 address FE80:: link-local
+ ipv6 address 2001:DB8:ACAD:AC1E::254/64
+!
+interface Ethernet0/1
+ ip address 172.31.255.253 255.255.255.252
+ ip ospf message-digest-key 10 md5 cisco
+ ip ospf network point-to-point
+ ipv6 address FE80:: link-local
+ ipv6 ospf 10 area 0
+ ipv6 ospf network point-to-point
+!
+interface Ethernet0/2
+ ip address 172.31.255.249 255.255.255.252
+ ip ospf message-digest-key 10 md5 cisco
+ ip ospf network point-to-point
+ ipv6 address FE80:: link-local
+ ipv6 ospf 10 area 0
+ ipv6 ospf network point-to-point
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+interface Ethernet1/0
+ ip address 199.1.1.66 255.255.255.252
+ ipv6 address FE80:: link-local
+ ipv6 address 2001:DB8:ACAD:1::/127
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+router ospf 10
+ router-id 1.1.0.0
+ area 0 authentication message-digest
+ redistribute connected
+ network 172.31.255.248 0.0.0.3 area 0
+ network 172.31.255.252 0.0.0.3 area 0
+ default-information originate
+!
+ip forward-protocol nd
+!
+!
+ip http server
+ip http secure-server
+ip route 0.0.0.0 0.0.0.0 199.1.1.65
+ip ssh bulk-mode 131072
+no logging btrace
+ipv6 route ::/0 2001:DB8:ACAD:1::1
+ipv6 router ospf 10
+ default-information originate
+ redistribute connected
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input ssh
+!         
+!
+!
+!
+end

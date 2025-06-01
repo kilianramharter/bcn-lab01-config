@@ -1,0 +1,163 @@
+!
+version 17.15
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
+hostname RWest3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+no ip domain lookup
+ip cef
+login on-success log
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-131185080
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-131185080
+ revocation-check none
+ rsakeypair TP-self-signed-131185080
+ hash sha512
+!
+!
+crypto pki certificate chain TP-self-signed-131185080
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 0D050030 
+  30312E30 2C060355 04030C25 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31333131 38353038 30301E17 0D323530 35333131 37353932 
+  365A170D 33353035 33313137 35393236 5A303031 2E302C06 03550403 0C25494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3133 31313835 
+  30383030 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 B92715E3 4D682521 A38D8E5F F920D992 AB4E6BCD 4EE29872 4D4F88F8 
+  7CB47198 0205342E 2A7CD753 6564D348 C31676DA 72AA8E2C DDE36597 5EA4A322 
+  B67AACA1 314EF393 3A3A1308 681D6B99 36888CE3 D4A3212C E7B6BAE7 B72928A4 
+  291AC3D6 66C42337 B082A88C 945D1CC8 97B4CACB A2F0D58F 0CEC2184 B3BF3EAC 
+  65AAD9DE 35D118D5 6171218D F3490894 2E1A8706 2FEC4F9C 6542414A 35363971 
+  3E27E65C 0055358B 4A034144 542A3CA3 32DB5C1A 7C6B9936 A6C90B10 00ADFB45 
+  6275881F 99642DA0 C2067AD5 1375664C E8E6D257 6C7EBD8B 081DE1B6 92266802 
+  2136F817 2CB6E226 D20F3729 F3714C3B 47FC01AF 43626B31 EAF4A864 769C4250 
+  E09ACC11 02030100 01A35330 51301D06 03551D0E 04160414 63EC6964 4947666C 
+  1A7413E5 FA4BAF5F 5E01CA68 301F0603 551D2304 18301680 1463EC69 64494766 
+  6C1A7413 E5FA4BAF 5F5E01CA 68300F06 03551D13 0101FF04 05300301 01FF300D 
+  06092A86 4886F70D 01010D05 00038201 01009D2E 6BFAFB10 709869E4 07F7E8D6 
+  53CEC522 54925118 6BDAAFDB 4204A1DC FD1EAF63 71EA18F2 4ECAA195 68439795 
+  E6257736 9BBB1F7C 4CA745F5 AECA60AE 0180B75D 08E94AA4 23057926 9A18E315 
+  B4F2A251 66CCDB71 1411661F 710F34DE C158A777 83120C89 126A6AD6 FC778AF0 
+  1743E699 46D17697 2F07D9E6 6AD75377 40BEF90C 49BF83CF BCE7F33F E1DCFE84 
+  AA0C011E 38A1520A 9641BA0B FB320F62 4930265B AA80BCDD 132556C0 A67A371F 
+  AFD55FE1 A61BA3DB BFFBA13A 4AB746D1 A050EA2C 0E9E99D1 EC91C602 B293B2CD 
+  47B5CCF9 9D853DC1 4FCD8688 0B5F4E95 CB11EB98 5A1EB10F 7F67776F 7F0DE972 
+  61C38DBF D0C60265 51D799ED 31541C09 F007
+        quit
+!
+!
+memory free low-watermark processor 80093
+!
+!
+spanning-tree mode rapid-pvst
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ ip address 172.19.255.254 255.255.0.0
+ ipv6 address FE80::2:3 link-local
+ ipv6 address 2001:DB8:ACAD:AC19::254/64
+!
+interface Ethernet0/1
+ ip address 172.31.255.234 255.255.255.252
+ ip ospf message-digest-key 10 md5 cisco
+ ip ospf network point-to-point
+ ip ospf 10 area 2
+ ipv6 address FE80::2:3 link-local
+ ipv6 ospf 10 area 2
+ ipv6 ospf network point-to-point
+!
+interface Ethernet0/2
+ no ip address
+ shutdown
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+router ospf 10
+ router-id 1.1.2.3
+ area 2 authentication message-digest
+ area 2 stub no-summary
+ redistribute connected
+!
+ip forward-protocol nd
+!
+!         
+ip http server
+ip http secure-server
+ip ssh bulk-mode 131072
+no logging btrace
+ipv6 router ospf 10
+ area 2 stub no-summary
+ redistribute connected
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input ssh
+!
+!         
+!
+!
+end

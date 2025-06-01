@@ -1,0 +1,176 @@
+!
+version 17.15
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
+hostname RWest1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+no ip domain lookup
+ip cef
+login on-success log
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-131185075
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-131185075
+ revocation-check none
+ rsakeypair TP-self-signed-131185075
+ hash sha512
+!
+!
+crypto pki certificate chain TP-self-signed-131185075
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 0D050030 
+  30312E30 2C060355 04030C25 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31333131 38353037 35301E17 0D323530 35333131 37353734 
+  345A170D 33353035 33313137 35373434 5A303031 2E302C06 03550403 0C25494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3133 31313835 
+  30373530 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 8A2E66BB 86B96432 852BAAC6 A3B2AF3E 86167037 BCD3919B EEE7C41A 
+  C7C725DB BBE94EEF 5DCC5A8E 9A9A2EFE 051D604C 81567F3C 9C6987DD 3A10B695 
+  AD8AAC13 FB11A176 CFA4B75F 84F9897B 3DEEA359 CAE555DA B137D7ED 1F2A116D 
+  B093B686 B8AE4D4B 8732FD1E A272AC7B 464A5044 BD147849 6AA0B24C 1342ABB4 
+  1C38CD8D FE9CD8BC 6DF8DA7D E8AD4B98 55D9B51E 9D8CC2C9 4AD418F3 B51231D4 
+  99239C65 267B202E D4F83054 929631C9 A8D2B276 864D84A6 B21764E9 2FC3CB58 
+  52078FB4 AA7E2A6C 24FA174A A1EAF439 79AF5CA4 0DBB2C2E 6857C43C C1C930DE 
+  7D389E4B 132D7F93 519526EA 40863333 5723FCFC 63CB49A8 B4732CBC 11DD65D2 
+  1F6347C5 02030100 01A35330 51301D06 03551D0E 04160414 4EA0346B C4A3BE68 
+  3FB4F15D F4A16470 E9DB2A34 301F0603 551D2304 18301680 144EA034 6BC4A3BE 
+  683FB4F1 5DF4A164 70E9DB2A 34300F06 03551D13 0101FF04 05300301 01FF300D 
+  06092A86 4886F70D 01010D05 00038201 0100346E B98ADBC5 807DCA81 B2CC95B4 
+  385E7591 BC8EFE96 C21E09F9 4CC1FB81 62B3D51F 78C015FD 8808C1E4 14800DE9 
+  63525E9D F92D73DD B9376811 F1E2DF50 82BBE920 5CA2F49A 4E51F5AC E5FD7392 
+  1F999225 FB0D92A5 2F618837 CAE0DCCA 6E6A10A6 67161766 A50BAD18 C7D93939 
+  30BAF16D 302C81A9 788F2A4E E6BCE8EC BFEAA4B9 A296840A D6DB205C 0D1AAAFC 
+  C3E05F8D 7EBF98BC 609ADBD2 451A03CF 25266770 C34D8083 DB863F3D FB23903A 
+  95E0C980 3A24C58D 6E7EB24D 36367207 CDE1082D 329A1D47 E1AA1159 237B9F59 
+  A1DAF852 F6E12D04 D48869AC DEA92DCF 83C6A331 5F25300E 2003317C 3448766B 
+  84613396 19AB1B16 73FBDEA1 5BC219A4 DBE3
+        quit
+!
+!
+memory free low-watermark processor 80093
+!
+!
+spanning-tree mode rapid-pvst
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ ip address 172.31.255.250 255.255.255.252
+ ip ospf message-digest-key 10 md5 cisco
+ ip ospf network point-to-point
+ ipv6 address FE80::1 link-local
+ ipv6 ospf 10 area 0
+ ipv6 ospf network point-to-point
+!         
+interface Ethernet0/1
+ ip address 172.31.255.237 255.255.255.252
+ ip ospf message-digest-key 10 md5 cisco
+ ip ospf network point-to-point
+ ip ospf 10 area 1
+ ipv6 address FE80::2:1 link-local
+ ipv6 ospf 10 area 1
+ ipv6 ospf network point-to-point
+!
+interface Ethernet0/2
+ ip address 172.31.255.233 255.255.255.252
+ ip ospf message-digest-key 10 md5 cisco
+ ip ospf network point-to-point
+ ip ospf 10 area 2
+ ipv6 address FE80::2:1 link-local
+ ipv6 ospf 10 area 2
+ ipv6 ospf network point-to-point
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+router ospf 10
+ router-id 1.1.2.1
+ area 0 authentication message-digest
+ area 1 authentication message-digest
+ area 1 stub
+ area 2 authentication message-digest
+ area 2 stub no-summary
+ redistribute connected
+ network 172.31.255.248 0.0.0.3 area 0
+!
+ip forward-protocol nd
+!
+!
+ip http server
+ip http secure-server
+ip ssh bulk-mode 131072
+no logging btrace
+ipv6 router ospf 10
+ area 1 stub
+ area 2 stub no-summary
+ redistribute connected
+!
+!
+!         
+!
+control-plane
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input ssh
+!
+!
+!
+!
+end

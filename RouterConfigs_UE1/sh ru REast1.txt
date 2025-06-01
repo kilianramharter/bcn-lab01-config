@@ -1,0 +1,174 @@
+!
+version 17.15
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
+hostname REast1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+no ip domain lookup
+ip cef
+login on-success log
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-131185076
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-131185076
+ revocation-check none
+ rsakeypair TP-self-signed-131185076
+ hash sha512
+!
+!
+crypto pki certificate chain TP-self-signed-131185076
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 0D050030 
+  30312E30 2C060355 04030C25 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31333131 38353037 36301E17 0D323530 36303131 35343030 
+  325A170D 33353036 30313135 34303032 5A303031 2E302C06 03550403 0C25494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3133 31313835 
+  30373630 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 C569CAA0 4B3B8260 FAC6BEB5 ED14A69C 84AE2708 B4252665 592EE0A9 
+  7A4B6334 C812C77F CD71F5F9 6539DE47 F4147745 ADB8418D F78E65F3 B7F816F1 
+  77B7AB3A 8326AA9B 1A755DA3 15FDE902 628859BD 82F0CFBB 44B6B917 0D5B2CB6 
+  7EDDA065 57FE4A67 E5D2E5A6 DC36965C 0859DDA7 E0FE8B28 6A3BC307 F4A71B3A 
+  A72B2FEF 7DFD9E53 B27D8626 C209B55B 3935D6BA 5862150B 4777582A BD6070E4 
+  3FDCEC70 8E41AC88 B9FCB9C9 DABD58AB C8F07849 0A37E8B7 3B2355DF 4BACBC59 
+  A6E9073B D25DD1CC 02CCB625 D1C2586C 07FB27C7 3790BF7C 8343A544 6DF057E3 
+  D5A7F278 453F952F 43135193 A0E0271C 363669F5 51C0B92D F28B44BE DA5C44E7 
+  9A13928D 02030100 01A35330 51301D06 03551D0E 04160414 A58C2FC3 8C0425FE 
+  D255F76A 611D344A 1E9524DF 301F0603 551D2304 18301680 14A58C2F C38C0425 
+  FED255F7 6A611D34 4A1E9524 DF300F06 03551D13 0101FF04 05300301 01FF300D 
+  06092A86 4886F70D 01010D05 00038201 01005AE9 4CB00BA6 7F1E76FA AA06C97A 
+  E115A2A6 390DCF1F D0641C0C 275D648A 572CE908 B95478FD DE022B9F 9255D88C 
+  3BF9B095 E2BEF6B4 DB776A8E 210C0DF4 8EA204D8 9ABAEB1A 18B2A1B2 454F5DFE 
+  A2E28EE9 BD389447 C053AD37 4F44BBB4 713316F0 F4B8E9E8 F379EEEE 912B8D00 
+  D278D93F 3606FB6B 0A0EEDA1 0CF5C7F4 953C924F AD18924E 036EE439 80AF2BE0 
+  398D3B5B C6D3AE80 E7F78314 BCA3FEA8 73409493 9090DC95 4062CA4B 5D2A0B29 
+  CB27E894 0B63316D AC2437AE 6C33932A 5B16541B 60A81006 FF0BBA88 35318935 
+  A07FE88C 484DA5F4 1D7D1F2B 57C0A430 4221C671 490B2F7F E56936BF F273DC6A 
+  E33BC038 80255183 EABF98A6 A26406BF E6B7
+        quit
+!
+!
+memory free low-watermark processor 80093
+!
+!
+spanning-tree mode rapid-pvst
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ ip address 172.31.255.254 255.255.255.252
+ ip ospf message-digest-key 10 md5 cisco
+ ip ospf network point-to-point
+ ipv6 address FE80::1 link-local
+ ipv6 rip process1 enable
+ ipv6 ospf 10 area 0
+ ipv6 ospf network point-to-point
+!
+interface Ethernet0/1
+ ip address 172.31.255.245 255.255.255.252
+ ipv6 address FE80::1:1 link-local
+ ipv6 rip process1 enable
+ ipv6 rip process1 default-information originate
+!
+interface Ethernet0/2
+ ip address 172.31.255.241 255.255.255.252
+ ipv6 address FE80::1:1 link-local
+ ipv6 rip process1 enable
+ ipv6 rip process1 default-information originate
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+router ospf 10
+ router-id 1.1.1.1
+ area 0 authentication message-digest
+ redistribute connected
+ redistribute rip metric 100 metric-type 1
+ network 172.31.255.252 0.0.0.3 area 0
+!
+router rip
+ version 2
+ network 172.31.0.0
+ default-information originate
+ no auto-summary
+!
+ip forward-protocol nd
+!
+!
+ip http server
+ip http secure-server
+ip ssh bulk-mode 131072
+no logging btrace
+ipv6 router ospf 10
+ redistribute rip process1 metric 100 metric-type 1 include-connected
+!
+ipv6 router rip process1
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input ssh
+!
+!
+!
+!
+end
